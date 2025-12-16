@@ -5,52 +5,34 @@ const skillCategories = [
   {
     title: "Cloud Platforms",
     icon: Cloud,
-    skills: [
-      { name: "AWS", level: 85 },
-      { name: "Microsoft Azure", level: 80 },
-    ],
-    color: "primary",
+    skills: ["AWS (EC2, RDS, VPC, ALB)", "Microsoft Azure"],
+    highlight: true,
   },
   {
-    title: "DevOps Tools",
+    title: "Containerization",
     icon: Container,
-    skills: [
-      { name: "Docker", level: 90 },
-      { name: "Kubernetes", level: 60 },
-      { name: "Jenkins", level: 75 },
-      { name: "GitHub Actions", level: 85 },
-    ],
-    color: "accent",
+    skills: ["Docker", "Kubernetes (Basics)", "Docker Hub"],
   },
   {
     title: "Infrastructure as Code",
     icon: Settings,
-    skills: [{ name: "Terraform", level: 80 }],
-    color: "primary",
+    skills: ["Terraform", "AWS CloudFormation"],
+    highlight: true,
   },
   {
-    title: "CI/CD",
+    title: "CI/CD Pipelines",
     icon: GitBranch,
-    skills: [
-      { name: "Jenkins Pipelines", level: 75 },
-      { name: "GitHub Actions", level: 85 },
-    ],
-    color: "accent",
+    skills: ["Jenkins", "GitHub Actions", "Automated Deployments"],
   },
   {
-    title: "Monitoring",
+    title: "Monitoring & Logging",
     icon: Activity,
-    skills: [{ name: "CloudWatch", level: 70 }],
-    color: "primary",
+    skills: ["AWS CloudWatch", "Log Analysis"],
   },
   {
     title: "Scripting & OS",
     icon: Terminal,
-    skills: [
-      { name: "Bash", level: 80 },
-      { name: "Linux (Ubuntu)", level: 85 },
-    ],
-    color: "accent",
+    skills: ["Bash Scripting", "Linux (Ubuntu)", "Shell Automation"],
   },
 ];
 
@@ -58,21 +40,13 @@ const Skills = () => {
   const { ref, isInView } = useInView(0.1);
 
   return (
-    <section id="skills" className="py-24 bg-card relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
-      <div className="absolute inset-0 grid-pattern opacity-30" />
-
-      <div className="container mx-auto px-6 relative z-10" ref={ref}>
-        <div className={`mb-16 ${isInView ? 'animate-fade-in-up' : 'opacity-0'}`}>
-          <p className="font-mono text-primary mb-2 text-sm">
-            <span className="text-accent">$</span> cat skills.txt
-          </p>
-          <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
-            Technical Skills
-          </h2>
-          <p className="text-muted-foreground max-w-xl">
-            Proficient in modern cloud platforms, containerization, and automation tools
+    <section id="skills" className="py-24 bg-secondary/30">
+      <div className="section-container" ref={ref}>
+        <div className={`text-center mb-16 ${isInView ? 'animate-fade-in-up' : 'opacity-0'}`}>
+          <span className="badge badge-primary mb-4">Technical Expertise</span>
+          <h2 className="section-title mb-4">Skills & Technologies</h2>
+          <p className="section-subtitle mx-auto">
+            Proficient in modern cloud platforms, containerization, and DevOps practices
           </p>
         </div>
 
@@ -80,41 +54,28 @@ const Skills = () => {
           {skillCategories.map((category, index) => (
             <div
               key={category.title}
-              className={`bg-background/50 backdrop-blur-sm border border-border rounded-2xl p-6 hover:border-${category.color}/50 transition-all duration-500 hover-lift group ${
+              className={`card-professional ${category.highlight ? 'ring-1 ring-primary/20' : ''} ${
                 isInView ? 'animate-fade-in-up' : 'opacity-0'
               }`}
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              <div className="flex items-center gap-3 mb-6">
-                <div className={`p-3 rounded-xl bg-${category.color}/10 text-${category.color} group-hover:scale-110 transition-transform duration-300`}>
+              <div className="flex items-center gap-3 mb-4">
+                <div className={`p-2.5 rounded-xl ${category.highlight ? 'bg-primary/10 text-primary' : 'bg-secondary text-muted-foreground'}`}>
                   <category.icon className="w-5 h-5" />
                 </div>
-                <h3 className="font-semibold text-foreground text-lg">
+                <h3 className="font-semibold text-foreground">
                   {category.title}
                 </h3>
               </div>
               
-              <div className="space-y-4">
-                {category.skills.map((skill, skillIndex) => (
-                  <div key={skill.name}>
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm text-muted-foreground font-mono">
-                        {skill.name}
-                      </span>
-                      <span className={`text-xs text-${category.color} font-semibold`}>
-                        {skill.level}%
-                      </span>
-                    </div>
-                    <div className="skill-bar">
-                      <div
-                        className={`skill-bar-fill ${isInView ? '' : 'scale-x-0'}`}
-                        style={{
-                          width: `${skill.level}%`,
-                          animationDelay: `${(index * 100) + (skillIndex * 150) + 300}ms`,
-                        }}
-                      />
-                    </div>
-                  </div>
+              <div className="flex flex-wrap gap-2">
+                {category.skills.map((skill) => (
+                  <span
+                    key={skill}
+                    className="badge badge-outline text-xs"
+                  >
+                    {skill}
+                  </span>
                 ))}
               </div>
             </div>

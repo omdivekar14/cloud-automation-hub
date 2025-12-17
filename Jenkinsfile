@@ -9,18 +9,11 @@ pipeline {
             }
         }
 
-        stage('Import Image into containerd') {
-            steps {
-                sh '''
-                docker save portfolio:latest -o portfolio.tar
-                ctr -n k8s.io images import portfolio.tar
-                '''
-            }
-        }
-
         stage('Deploy to Kubernetes') {
             steps {
-                sh 'kubectl delete pods -l app=portfolio || true'
+                sh '''
+                kubectl delete pods -l app=portfolio || true
+                '''
             }
         }
     }
@@ -34,3 +27,4 @@ pipeline {
         }
     }
 }
+

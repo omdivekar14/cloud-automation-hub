@@ -5,14 +5,14 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'sudo docker build -t portfolio:latest .'
+                sh 'sudo /snap/bin/docker build -t portfolio:latest .'
             }
         }
 
         stage('Import Image into containerd') {
             steps {
                 sh '''
-                sudo docker save portfolio:latest -o portfolio.tar
+                sudo /snap/bin/docker save portfolio:latest -o portfolio.tar
                 sudo ctr -n k8s.io images import portfolio.tar
                 '''
             }
@@ -34,3 +34,4 @@ pipeline {
         }
     }
 }
+

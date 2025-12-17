@@ -6,7 +6,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 sh '''
-                docker build -t portfolio:latest -f docker/Dockerfile .
+                docker build -t portfolio:latest .
                 '''
             }
         }
@@ -27,15 +27,15 @@ pipeline {
                 '''
             }
         }
-
     }
 
     post {
         success {
-            echo '✅ Deployment completed successfully'
+            echo '✅ CI/CD pipeline completed successfully'
         }
         failure {
-            echo '❌ Deployment failed'
+            echo '❌ CI/CD pipeline failed'
         }
     }
 }
+

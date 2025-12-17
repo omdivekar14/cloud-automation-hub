@@ -5,16 +5,14 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh '''
-                docker build -t portfolio:latest .
-                '''
+                sh 'sudo docker build -t portfolio:latest .'
             }
         }
 
         stage('Import Image into containerd') {
             steps {
                 sh '''
-                docker save portfolio:latest -o portfolio.tar
+                sudo docker save portfolio:latest -o portfolio.tar
                 sudo ctr -n k8s.io images import portfolio.tar
                 '''
             }
@@ -22,20 +20,17 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                sh '''
-                kubectl delete pods -l app=portfolio || true
-                '''
+                sh 'kubectl delete pods -l app=portfolio || true'
             }
         }
     }
 
     post {
         success {
-            echo '✅ CI/CD pipeline completed successfully'
+            echo '✅ CI/CD pipeline SUCCESS'
         }
         failure {
-            echo '❌ CI/CD pipeline failed'
+            echo '❌ CI/CD pipeline FAILED'
         }
     }
 }
-
